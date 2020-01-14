@@ -28,6 +28,7 @@ android {
     manifestPlaceholders = [
       tipsiStripeRedirectScheme: "example"
     ]
+    multiDexEnabled true
   }
   buildTypes {
     release {
@@ -49,6 +50,7 @@ dependencies {
   implementation "com.google.firebase:firebase-core:$firebaseVersion"
   implementation 'com.stripe:stripe-android:10.4.6'
   implementation 'com.github.tipsi:CreditCardEntry:1.5.1'
+  implementation 'com.android.support:multidex:1.0.3'
 }
 repositories {
   google()
