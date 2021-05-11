@@ -958,8 +958,9 @@ RCT_EXPORT_METHOD(openApplePaySetup) {
     if (!params) {return nil;}
 
     STPPaymentMethodBillingDetails * result = [[STPPaymentMethodBillingDetails alloc] init];
+    STPPaymentMethodAddress * address = [self extractPaymentMethodBillingDetailsAddressFromDictionary: params[TPSStripeParam(PaymentMethodBillingDetails, address)]];
 #define simpleUnpack(key) result.key = [RCTConvert NSString:params[TPSStripeParam(PaymentMethodBillingDetails, key)]]
-    result.address = params[TPSStripeParam(PaymentMethodBillingDetails, address)];
+    result.address = address;
     simpleUnpack(email);
     simpleUnpack(name);
     simpleUnpack(phone);
@@ -1198,7 +1199,7 @@ RCT_EXPORT_METHOD(openApplePaySetup) {
         reject(error[kErrorKeyCode], error[kErrorKeyDescription], nil);
         return NO;
     }
-    if ([[[paymentRequest.paymentSummaryItems lastObject] amount] floatValue] == 0) {
+    if ([[[paymentRequest.paymentSummaryItems lastObject] amount] floatValue] < 0) {
         NSDictionary *error = [errorCodes valueForKey:kErrorKeyNoAmount];
         reject(error[kErrorKeyCode], error[kErrorKeyDescription], nil);
         return NO;
